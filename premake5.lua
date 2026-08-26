@@ -46,6 +46,9 @@ local function ensureAssimpBuilt()
     if not ok then
         error("CMake configuration failed with error code: " .. tostring(errCode))
     end
+
+    os.copyfile(path.join(buildDir, "include/assimp/config.h"), path.join(_WORKING_DIR, "Engine/vendor/Assimp/include/assimp/config.h"))
+    os.copyfile(path.join(buildDir, "include/assimp/revision.h"), path.join(_WORKING_DIR, "Engine/vendor/Assimp/include/assimp/revision.h"))
 end
 
 ensureAssimpBuilt()
