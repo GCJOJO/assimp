@@ -58,3 +58,13 @@ externalproject "Assimp"
     uuid (os.uuid("Assimp"))
     kind "StaticLib"
     language "C++"
+
+    links {
+        "zlibstatic"
+    }
+
+externalproject "zlibstatic"
+    location "build/contrib/zlib"
+    uuid (os.uuid("zlibstatic"))
+    kind "StaticLib"
+    language "C++"
