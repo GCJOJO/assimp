@@ -71,6 +71,8 @@ OPTION(ASSIMP_BUILD_USD_VERBOSE_LOGS "Enable verbose USD import debug logging" o
 # (Need to make this opt-in because 3rd party code triggers lots of CI code quality warnings)
 OPTION(ASSIMP_BUILD_VRML_IMPORTER "Enable VRML (.wrl/.x3dv) file import" off)
 
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release;Dist" CACHE STRING "" FORCE)
+
 #--------------------------------------------------------------------------------#
 #                  Internal impl for optional model formats
 #--------------------------------------------------------------------------------#
@@ -228,6 +230,7 @@ IF (WIN32)
           $<$<CONFIG:>:/MT>
           $<$<CONFIG:Debug>:/MTd>
           $<$<CONFIG:Release>:/MT>
+          $<$<CONFIG:Dist>:/MT>
       )
     endif()
   ENDIF()
@@ -240,6 +243,11 @@ IF (IOS AND NOT ASSIMP_HUNTER_ENABLED)
   ADD_DEFINITIONS(-DENABLE_BITCODE)
 ENDIF ()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Dist")
+    set(CMAKE_C_FLAGS_DIST     "${CMAKE_C_FLAGS_RELEASE}")
+    set(CMAKE_CXX_FLAGS_DIST   "${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_EXE_LINKER_FLAGS_DIST "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
+endif()
 
 IF (ASSIMP_BUILD_FRAMEWORK)
   SET (BUILD_SHARED_LIBS ON)
